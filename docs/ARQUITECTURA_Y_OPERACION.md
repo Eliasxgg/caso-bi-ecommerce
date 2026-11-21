@@ -1,44 +1,95 @@
 # Arquitectura y operación
 
-## Componentes conservados
+## Qué componentes forman la solución
 
-| Componente | Tecnología | Función |
+La solución separa la operación del e-commerce, el almacenamiento y el análisis. Docker Compose coordina los servicios; Power BI prepara y presenta los indicadores a partir de las vistas PostgreSQL.
+
+| Componente | Tecnología | Responsabilidad |
 |---|---|---|
-| Interfaz | React 19, TypeScript y Vite | Catálogo, carrito, checkout simulado y administración |
-| API | Node.js y Express 5 | Operaciones de aplicación y acceso a datos |
-| Base | PostgreSQL 18 | Tablas operativas, funciones, triggers y vistas analíticas |
-| Analítica | Power BI, Power Query y DAX | Proyectos Resumen y Carritos |
-| Ejecución local | Docker Compose, Docker Desktop y WSL 2 | Construcción y coordinación de aplicación/base |
+| Aplicación | React 19, TypeScript, Vite, Node.js y Express 5 | Catálogo, compra simulada, API y panel administrativo |
+| Base de datos | PostgreSQL 18 | Operaciones, relaciones, reglas y cinco vistas analíticas |
+| Servicio interno BI | Node.js y API de Power BI | Consulta de fecha/cupo y gestión de solicitudes de actualización de cada modelo |
+| Preparación y modelo BI | Power BI Desktop, Power Query y DAX | Limpieza, tipos, columnas, relaciones, medidas y diseño de informes |
+| Publicación | Power BI Service | Modelos importados e informes integrados en el panel |
+| Entrada al despliegue | Proxy inverso | Recepción de conexiones HTTPS y envío de tráfico a la aplicación |
+| Persistencia | Volúmenes Docker | Conservación de la base y de archivos subidos |
 
-## Entorno local comprobado
+React y la API se sirven desde el contenedor de aplicación en la versión compilada; no se presentan como dos contenedores independientes. Las vistas pertenecen a PostgreSQL, no a otro servicio.
 
-El entorno preparado utiliza dos servicios: aplicación y PostgreSQL. La base se inicializa, únicamente sobre un volumen nuevo, en este orden: esquema, población sintética y vistas analíticas.
+## 1. Despliegue en VPS
 
-Los puertos publicados están ligados a la interfaz de bucle local. Los archivos de entorno se generan por separado con secretos propios de laboratorio y no se incluyen en el caso público. La base y los archivos subidos utilizan volúmenes independientes para conservar sus datos al recrear los contenedores.
+La VPS Ubuntu aloja los servicios Docker. El navegador entra por HTTPS al proxy, que dirige la solicitud a la aplicación. La API consulta PostgreSQL por la red interna. El panel integra los informes alojados en Power BI Service; el servicio interno BI administra las consultas de estado y las solicitudes de actualización.
 
-Una comprobación de salud de PostgreSQL por TCP evita confundir el servidor temporal de inicialización con la base ya preparada. La aplicación espera a que la base esté lista. Los servicios tienen límites de memoria y rotación de logs definidos en Compose.
+```mermaid
+flowchart LR
+    U["Navegador"] -->|HTTPS| X
+    subgraph VPS["VPS Ubuntu"]
+        subgraph DOCKER["Servicios Docker"]
+            X["Proxy inverso"] --> A["Aplicación React y API Node.js"]
+            A -->|Red de base de datos| D[("PostgreSQL · tablas y cinco vistas")]
+            A -->|Red BI| B["Servicio interno Power BI"]
+        end
+        D --- V[("Volumen PostgreSQL")]
+        A --- F[("Volumen de archivos")]
+    end
+    P["Power BI Service"] -->|Lectura de vistas mediante TLS| D
+    B -->|Estado y solicitudes de actualización| P
+    U -. Visualización del informe dentro del panel .-> P
+```
 
-El correo externo está deshabilitado en la demo local. Los informes publicados y la consulta de su estado se integran mediante un servicio interno que no publica puertos ni expone su autorización al navegador. La aplicación y la base utilizan una red propia de Docker, con acceso desde el anfitrión a través de puertos de bucle local.
+### Recorrido de una operación y del análisis
 
-## Qué se validó
+1. El usuario navega por el catálogo y realiza acciones del proceso de compra simulado.
+2. La API registra esas acciones y sus estados en PostgreSQL.
+3. Las vistas analíticas exponen los campos necesarios sin incorporar identidades de clientes al modelo de análisis.
+4. Al actualizar el modelo, Power BI importa los datos del origen configurado y aplica las transformaciones y medidas.
+5. El administrador consulta el informe publicado dentro del panel; los filtros operan sobre el modelo importado.
 
-- Construcción de la imagen de aplicación y arranque con la base de laboratorio.
-- Inicialización del conjunto completo de datos sintéticos.
-- Salud de servicios y respuesta HTTP desde el anfitrión.
-- Conservación de los datos al detener y volver a iniciar los servicios en la comprobación automatizada.
-- Recorrido web de escritorio descrito en [Evidencias](EVIDENCIAS.md).
+El proxy es un componente del despliegue compartido por la red de entrada; el Compose de la aplicación se conecta a esa red. La base usa una conexión de lectura específica para BI. El servicio BI no publica su puerto ni envía tokens al navegador.
 
-## Conexión de datos en VPS y en local
+## 2. Ejecución local
 
-El proyecto se desplegó académicamente en una VPS Ubuntu. Su arquitectura distingue el origen PostgreSQL, el modelo de Power BI y la visualización del informe dentro de la aplicación.
+En Windows, Docker Desktop con WSL 2 ejecuta la aplicación y PostgreSQL en una red de laboratorio. El navegador accede mediante localhost. La base utiliza un volumen propio y se inicializa con esquema, población sintética y vistas solamente cuando ese volumen está vacío.
 
-| Entorno | Origen de datos | Configuración de Power BI |
+```mermaid
+flowchart LR
+    U["Navegador local"] -->|localhost| A
+    subgraph PC["PC Windows · Docker Desktop y WSL 2"]
+        A["Aplicación React y API Node.js"] --> D[("PostgreSQL local · datos y vistas")]
+        A --> B["Servicio Power BI opcional"]
+        D --- V[("Volumen de laboratorio")]
+        A --- F[("Volumen de archivos")]
+    end
+    Q["Power BI Desktop"] -->|Servidor y puerto locales| D
+    Q -->|Publicación del modelo e informe| P["Power BI Service"]
+    B -->|Consulta de estado y gestión de solicitudes| P
+    U -. Visualización del informe dentro del panel .-> P
+```
+
+### Dos tareas distintas en local
+
+- **Trabajar los datos:** Power BI Desktop se conecta al PostgreSQL local para actualizar consultas, revisar el modelo y trabajar medidas o visuales.
+- **Consultar el informe integrado:** el navegador carga la versión publicada en Microsoft dentro del panel. El servicio BI opcional permite consultar su fecha y cupo mediante la API.
+
+Para que Power BI Service actualice una base accesible únicamente desde la PC, se configura un gateway de datos local. La conexión Desktop y la conexión del modelo publicado se configuran por separado. [Referencia de Microsoft sobre gateways](https://learn.microsoft.com/en-us/power-bi/connect-data/service-gateway-onprem).
+
+## 3. Qué cambia entre entornos
+
+| Aspecto | VPS | Local |
 |---|---|---|
-| Despliegue en VPS | PostgreSQL alojado en el servidor | El modelo publicado utiliza la conexión del servidor y sus credenciales de lectura |
-| Trabajo local | PostgreSQL de la PC, ejecutado con Docker | En Power BI Desktop se configura el servidor, puerto, base y credenciales locales antes de actualizar el modelo |
+| Entrada a la aplicación | HTTPS mediante proxy | Navegador y puertos de localhost |
+| Base | PostgreSQL del servidor | PostgreSQL de laboratorio en Docker |
+| Credenciales y datos | Propios del despliegue | Propios de la PC, separados del servidor |
+| Acceso del modelo BI | Conexión de lectura al servidor | Conexión Desktop local; gateway si Service necesita acceder al origen privado |
+| Persistencia | Volúmenes del servidor | Volúmenes de laboratorio |
+| Informe dentro del panel | Informe publicado en Microsoft | Informe publicado en Microsoft |
 
-Los informes utilizan modo Import: cargan los datos al actualizar el modelo. Los filtros son interactivos sobre esos datos importados; no representan consultas en tiempo real a PostgreSQL. La fecha visible en el panel permite identificar la actualización del modelo publicado.
+En ambos casos se utiliza **modo Import**. Interactuar con un filtro no significa consultar PostgreSQL en tiempo real: los datos cambian al actualizar el modelo. La fecha visible del panel identifica esa actualización.
 
-Para que Power BI Service actualice un origen que solo es accesible desde la PC, se necesita un gateway de datos local configurado. Conectar Power BI Desktop a la base local y visualizar un informe publicado en el panel son dos configuraciones distintas. Las credenciales permanecen fuera del repositorio público.
+## 4. Operación y comprobaciones
 
-Este caso no incluye instrucciones de instalación de la aplicación porque su código y archivos necesarios permanecen privados. Los documentos permiten revisar el diseño y sus evidencias sin prometer una ejecución que este repositorio no proporciona.
+Los contenedores tienen comprobaciones de salud, límites de memoria y rotación de logs. Los servicios de aplicación y base se coordinan para que la aplicación espere a PostgreSQL. Los volúmenes conservan los datos al detener y recrear contenedores.
+
+Se verificaron arranque, respuesta HTTP, persistencia tras detener/reiniciar, integración de ambos informes, filtros y consulta de estado. La integración no requiere que las credenciales de PostgreSQL o Microsoft estén en el repositorio público.
+
+Este repositorio presenta el caso y sus evidencias. La implementación, las instrucciones de ejecución y la configuración operativa permanecen en el repositorio privado. La [galería](EVIDENCIAS.md) muestra las pantallas del entorno utilizado.

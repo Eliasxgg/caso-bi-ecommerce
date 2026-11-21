@@ -32,27 +32,27 @@ Vista real del catálogo administrativo: producto, categoría, franquicia, preci
 
 ![Pedidos del histórico simulado](capturas/admin-pedidos.jpg)
 
-Histórico simulado activado: 29.898 pedidos. La vista muestra estados de cobro y entrega; los nombres y operaciones visibles pertenecen al laboratorio.
+Histórico simulado activado: 29,898 pedidos. La vista muestra estados de cobro y entrega; los nombres y operaciones visibles pertenecen al laboratorio.
 
 ### Carritos
 
 ![Seguimiento operativo de carritos](capturas/admin-carritos.jpg)
 
-Histórico simulado activo: 42.900 carritos, 10.868 abandonados actualmente, 15.003 episodios históricos y 14.245 carritos distintos con historial. Es un panel operativo web, separado del informe analítico Power BI que aparece abajo.
+Histórico simulado activo: 42,900 carritos, 10,868 abandonados actualmente, 15,003 episodios históricos y 14,245 carritos distintos con historial. Es un panel operativo web, separado del informe analítico Power BI que aparece abajo.
 
 ### Resumen de ventas integrado
 
 ![Resumen de Power BI dentro de Resumen de la tienda](capturas/powerbi-resumen-integrado.jpg)
 
-Informe publicado en Microsoft y cargado dentro del panel local, con la navegación administrativa visible. Origen seleccionado: Todas. Conserva $873.917,78 en ventas netas de productos, 41.016 unidades y 29.902 pedidos de una importación anterior con histórico y pruebas del prototipo. No representa ventas reales ni el total del histórico local usado para las conclusiones.
+Informe publicado en Microsoft y cargado dentro del panel local, con la navegación administrativa visible. Origen seleccionado: Todas. Conserva $873,917.78 en ventas netas de productos, 41,016 unidades y 29,902 pedidos de una importación anterior con histórico y pruebas del prototipo. No representa ventas reales ni el total del histórico local usado para las conclusiones.
 
 ### Carritos y abandono integrado
 
 ![Carritos de Power BI dentro de la sección administrativa](capturas/powerbi-carritos-integrado.jpg)
 
-Informe publicado cargado dentro del panel local, con origen HISTORICO_SIMULADO, todos los segmentos y políticas. Se seleccionó Ajustar a la página para mostrar el dashboard completo sin retirar el menú administrativo. Se verificaron 42.900 carritos, 14.245 con abandono y 2.540 recuperados.
+Informe publicado cargado dentro del panel local, con origen HISTORICO_SIMULADO, todos los segmentos y políticas. Se seleccionó Ajustar a la página para mostrar el dashboard completo sin retirar el menú administrativo. Se verificaron 42,900 carritos, 14,245 con abandono y 2,540 recuperados.
 
-Los totales y las etapas coinciden con la comprobación SQL local. La distribución por tarifas conserva la importación anterior y presenta pequeñas diferencias: por ejemplo, para envío de $3 el informe muestra aproximadamente 72,2 % de conversión y el recálculo local da 72,02 %. Las tablas del [análisis vigente](HALLAZGOS_Y_RECOMENDACIONES.md) y los CSV usan el recálculo local, sin mezclar versiones.
+Los totales y las etapas coinciden con la comprobación SQL local. La distribución por tarifas conserva la importación anterior y presenta pequeñas diferencias: por ejemplo, para envío de $3 el informe muestra aproximadamente 72.2 % de conversión y el recálculo local da 72.02 %. Las tablas del [análisis vigente](HALLAZGOS_Y_RECOMENDACIONES.md) y los CSV usan el recálculo local, sin mezclar versiones.
 
 ### Estado comprobado de la integración
 
@@ -77,3 +77,17 @@ Los [CSV públicos](../datos/) contienen únicamente agregados del histórico lo
 El material académico anterior sirve como antecedente de la evolución del proyecto. Las conclusiones actuales responden al enfoque delimitado de etapas, subtotal, envío, umbral y recuperación; no reutilizan conclusiones anteriores sobre dispositivos o fallos de pago.
 
 La implementación privada conserva la validación previa de tipos, compilación, 95 pruebas, construcción de contenedores y persistencia. La integración de este corte se verificó con configuración Compose, salud de los servicios, API oficial de estado y navegador real.
+
+## Cómo contrastar los hallazgos con las imágenes
+
+| Resultado | Dónde revisarlo |
+|---|---|
+| 10,107 carritos en checkout y 14,245 con abandono | Barras «¿En qué etapa abandonan?» y tarjeta superior del informe Carritos |
+| 32.9 % de abandono entre $25 y $34.99 | Columnas «Abandono y conversión por subtotal» |
+| Conversión de 72.7 % por debajo y 82.3 % por encima del umbral | Columnas «Comparación con el umbral de envío gratuito» |
+| Avance al checkout e inicio de pago | Tarjetas del lado derecho del informe Carritos |
+| 2,540 recuperados y tasa de 17.8 % | Tarjetas superiores del informe Carritos |
+| Evolución del 30 % al 55 % | Gráfico mensual combinado |
+| Participación de Figuras en ventas netas | Anillo «Ventas por categoría» del informe Resumen, origen Todas |
+
+Los porcentajes derivados de conteos y los resultados del conjunto local están identificados en [Hallazgos y recomendaciones](HALLAZGOS_Y_RECOMENDACIONES.md). La galería no convierte una asociación simulada en una mejora comercial medida.
