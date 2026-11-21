@@ -34,7 +34,7 @@ Organicé los datos operativos en PostgreSQL y utilicé cinco vistas analíticas
 
 Para comparar el envío, conservo lo que se mostró al abandonar y separo entrega a domicilio, retiro y cotizaciones desconocidas. También distingo el estado actual de un carrito de haber abandonado alguna vez: un carrito puede abandonar y después comprar.
 
-Los hallazgos siguientes se recalcularon el **21 de noviembre de 2026** sobre los **42.900 carritos del histórico simulado**, mediante consultas de solo lectura con las reglas del modelo. Las imágenes Power BI muestran los informes publicados dentro del panel local, con su menú administrativo. La integración de visualización y consulta de estado está restaurada; esto no acredita sincronización de los modelos con la base local actual.
+Los hallazgos siguientes se recalcularon el **21 de noviembre de 2026** sobre los **42.900 carritos del histórico simulado**, mediante consultas de solo lectura con las reglas del modelo. Las capturas muestran los informes publicados en Power BI integrados dentro del panel de administración.
 
 ## Hallazgos principales
 
@@ -97,7 +97,9 @@ Son propuestas para evaluar, no acciones con impacto comercial ya demostrado.
 
 ![Dashboard Carritos de Power BI integrado al panel](docs/capturas/powerbi-carritos-integrado.jpg)
 
-Las capturas se tomaron el 21/11/2026. Los informes muestran la importación publicada en Microsoft, cuya última actualización completada consultada es del 19/10/2026 UTC. La visualización interactiva y la consulta de fecha/cupo están restauradas; cargar datos nuevos requiere restablecer un origen accesible para Power BI. No se solicitó una actualización de datos para estas capturas.
+Las capturas se tomaron el 21/11/2026. Los informes permiten explorar los datos mediante filtros y muestran la fecha de actualización del modelo publicado.
+
+**VPS y entorno local.** En el despliegue en VPS, PostgreSQL actúa como origen de los informes publicados en Power BI. Para trabajar en la PC, el modelo se configura con la conexión al PostgreSQL local. Los datos del informe cambian al actualizar el modelo; abrir el panel muestra la versión publicada en Microsoft. El detalle de ambas configuraciones está en [Arquitectura y operación](docs/ARQUITECTURA_Y_OPERACION.md).
 
 Resumen conserva el origen «Todas» y muestra 29.902 pedidos de la importación anterior. Carritos está filtrado al histórico y muestra 42.900 carritos, 14.245 con abandono y 2.540 recuperados. Las tablas de hallazgos usan la comprobación SQL local; las diferencias de detalle se explican en [Evidencias](docs/EVIDENCIAS.md).
 
@@ -141,6 +143,6 @@ Lo que más me interesa de este caso es relacionar una pregunta de negocio con d
 - [Capturas, fuentes y validaciones](docs/EVIDENCIAS.md)
 - [Arquitectura y operación](docs/ARQUITECTURA_Y_OPERACION.md)
 
-Este repositorio contiene la presentación del caso y tablas agregadas de la simulación. La implementación completa permanece privada. La aplicación funciona en local con ambos informes publicados integrados y consulta de su estado. La nueva demo pública y la actualización de los modelos desde un origen restaurado requieren validación adicional.
+Este repositorio contiene la presentación del caso y tablas agregadas de la simulación. La implementación completa permanece privada. La aplicación se ejecuta en local con ambos informes publicados integrados y consulta de su estado. La conexión de datos de Power BI se configura según el entorno utilizado: VPS o PostgreSQL local.
 
 Las marcas y recursos de terceros visibles en las capturas no se atribuyen como creación propia ni reciben una licencia abierta mediante este repositorio.

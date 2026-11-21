@@ -18,7 +18,7 @@ Los puertos publicados están ligados a la interfaz de bucle local. Los archivos
 
 Una comprobación de salud de PostgreSQL por TCP evita confundir el servidor temporal de inicialización con la base ya preparada. La aplicación espera a que la base esté lista. Los servicios tienen límites de memoria y rotación de logs definidos en Compose.
 
-El correo externo está deshabilitado. La visualización de informes publicados y la consulta de estado Microsoft se habilitaron mediante un complemento local opcional; el servicio interno no publica puertos ni expone su autorización al navegador. Esto no sincroniza Microsoft con la base local ni valida cargar datos nuevos desde ella. La red propia de Docker y los puertos de bucle local no se presentan como un bloqueo general de conexiones salientes a Internet.
+El correo externo está deshabilitado en la demo local. Los informes publicados y la consulta de su estado se integran mediante un servicio interno que no publica puertos ni expone su autorización al navegador. La aplicación y la base utilizan una red propia de Docker, con acceso desde el anfitrión a través de puertos de bucle local.
 
 ## Qué se validó
 
@@ -28,10 +28,17 @@ El correo externo está deshabilitado. La visualización de informes publicados 
 - Conservación de los datos al detener y volver a iniciar los servicios en la comprobación automatizada.
 - Recorrido web de escritorio descrito en [Evidencias](EVIDENCIAS.md).
 
-## Qué falta para un despliegue público
+## Conexión de datos en VPS y en local
 
-El proyecto tuvo un despliegue académico anterior en una VPS Ubuntu. Esa instancia dejó de estar disponible. Recuperar archivos y respaldos no equivale a haber restaurado y validado el servicio.
+El proyecto se desplegó académicamente en una VPS Ubuntu. Su arquitectura distingue el origen PostgreSQL, el modelo de Power BI y la visualización del informe dentro de la aplicación.
 
-Antes de ofrecer una nueva demo se debe comprobar la restauración de datos, la compatibilidad de imágenes con la arquitectura de la instancia, la configuración de producción, HTTPS, permisos de base, secretos y procedencia de recursos visuales. La visualización Power BI ya se comprobó en local; actualizar sus modelos desde un nuevo origen requiere validación independiente. No se publican accesos ni configuración operativa del servidor.
+| Entorno | Origen de datos | Configuración de Power BI |
+|---|---|---|
+| Despliegue en VPS | PostgreSQL alojado en el servidor | El modelo publicado utiliza la conexión del servidor y sus credenciales de lectura |
+| Trabajo local | PostgreSQL de la PC, ejecutado con Docker | En Power BI Desktop se configura el servidor, puerto, base y credenciales locales antes de actualizar el modelo |
+
+Los informes utilizan modo Import: cargan los datos al actualizar el modelo. Los filtros son interactivos sobre esos datos importados; no representan consultas en tiempo real a PostgreSQL. La fecha visible en el panel permite identificar la actualización del modelo publicado.
+
+Para que Power BI Service actualice un origen que solo es accesible desde la PC, se necesita un gateway de datos local configurado. Conectar Power BI Desktop a la base local y visualizar un informe publicado en el panel son dos configuraciones distintas. Las credenciales permanecen fuera del repositorio público.
 
 Este caso no incluye instrucciones de instalación de la aplicación porque su código y archivos necesarios permanecen privados. Los documentos permiten revisar el diseño y sus evidencias sin prometer una ejecución que este repositorio no proporciona.

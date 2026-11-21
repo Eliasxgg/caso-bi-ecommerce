@@ -56,9 +56,9 @@ Los totales y las etapas coinciden con la comprobación SQL local. La distribuci
 
 ### Estado comprobado de la integración
 
-El 21/11/2026 se restauraron los enlaces existentes de ambos informes y el servicio interno autorizado. Microsoft devolvió las últimas actualizaciones completadas del 19/10/2026 UTC; el panel las muestra en hora de El Salvador como 18/10/2026 por la noche. El cupo consultado fue 8/8 para cada modelo. El aviso de configuración desapareció al restablecer el servicio, no mediante edición de imágenes ni ocultación de mensajes.
+El 21/11/2026 se comprobaron ambos informes dentro del panel y la consulta de su estado mediante el servicio interno autorizado. Microsoft devolvió las últimas actualizaciones completadas del 19/10/2026 UTC; el panel las muestra en hora de El Salvador como 18/10/2026 por la noche. El cupo consultado fue 8/8 para cada modelo.
 
-Se comprobó la visualización interactiva, los filtros y la consulta de fecha/cupo. No se solicitaron nuevas actualizaciones de datos ni se afirma sincronización con PostgreSQL local. La antigua VPS ya no está disponible: cargar datos nuevos requiere restablecer y validar un origen accesible para Microsoft. Abrir un informe publicado no realiza esa restauración.
+Se comprobó la visualización interactiva, los filtros y la consulta de fecha/cupo. Las capturas muestran los datos del modelo publicado en Microsoft. La conexión de Power BI se configura según el origen utilizado: PostgreSQL en la VPS o PostgreSQL local. Los [detalles de conexión y actualización](ARQUITECTURA_Y_OPERACION.md) explican esa diferencia.
 
 El selector de fechas llega a diciembre de 2026, pero el histórico generado termina el 13 de octubre. La amplitud del calendario no prueba que existan operaciones hasta diciembre.
 
@@ -76,4 +76,4 @@ Los [CSV públicos](../datos/) contienen únicamente agregados del histórico lo
 
 El material académico anterior sirve como antecedente de la evolución del proyecto. Las conclusiones actuales responden al enfoque delimitado de etapas, subtotal, envío, umbral y recuperación; no reutilizan conclusiones anteriores sobre dispositivos o fallos de pago.
 
-La implementación privada conserva la validación previa de tipos, compilación, 95 pruebas, construcción de contenedores y persistencia. La integración de este corte se verificó con configuración Compose, salud de los servicios, API oficial de estado y navegador real. No equivale a una auditoría exhaustiva ni a una restauración de base probada.
+La implementación privada conserva la validación previa de tipos, compilación, 95 pruebas, construcción de contenedores y persistencia. La integración de este corte se verificó con configuración Compose, salud de los servicios, API oficial de estado y navegador real.
