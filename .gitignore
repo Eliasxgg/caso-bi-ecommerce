@@ -1,0 +1,20 @@
+# El caso público admite únicamente documentación y capturas seleccionadas.
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.pfx
+*.pbix
+*.abf
+*.dump
+*.backup
+*.sql
+*.zip
+*.rar
+*.tar
+*.gz
+node_modules/
+.pbi/
+.DS_Store
+Thumbs.db
