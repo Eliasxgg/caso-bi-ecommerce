@@ -1,47 +1,65 @@
-# Evidencias y validación
+# Galería y fuentes del caso
 
-**Revisión local: 20 de noviembre de 2026.** Capturas reales de la aplicación en Windows con Docker Desktop y WSL 2. Los nombres y operaciones del panel pertenecen a una población de laboratorio, no a clientes comerciales.
+## Análisis con Power BI
 
-## Panel de carritos
+Abrí los informes originales en Power BI Desktop y exporté sus páginas el 21/11/2026. Las imágenes muestran el diseño y los datos importados que conservaban los archivos; no se actualizaron sus conexiones ni se guardaron cambios sobre los originales.
 
-![Panel web con el histórico simulado seleccionado](capturas/carritos-historico-simulado.jpg)
+### Resumen de ventas
 
-La captura muestra el panel administrativo web y el selector de histórico simulado activo. Documenta 42.900 carritos, sus estados y la distinción entre episodios de abandono y carritos con historial. No es una captura de Power BI ni demuestra una mejora comercial.
+![Informe Resumen](capturas/powerbi-resumen.jpg)
 
-La marca del prototipo conserva su identidad académica original. No existe afiliación con la tienda comercial del mismo nombre. Se incluye esta pantalla para documentar el funcionamiento del caso, sin distribuir sus recursos visuales originales ni el catálogo de productos.
+Origen seleccionado: **Todas**. La importación conservada muestra $873.917,78 en ventas netas de productos, 41.016 unidades y 29.902 pedidos. Es una fotografía anterior con datos de prototipo además del histórico; no representa ventas reales ni el total del histórico local usado para las conclusiones. El selector de fecha llega a diciembre, pero eso no significa que existan datos hasta diciembre: el histórico de generación termina el 13 de octubre.
 
-## Aviso educativo de la aplicación
+### Carritos y abandono de compra
 
-![Aviso educativo que identifica compras, pagos y envíos simulados y ausencia de afiliación](capturas/aviso-academico.jpg)
+![Informe Carritos filtrado al histórico simulado](capturas/powerbi-carritos.jpg)
 
-El aviso visible identifica el sitio como proyecto educativo y sus operaciones como simulaciones. No se realizan cobros, transacciones comerciales ni entregas reales.
+Origen seleccionado: **HISTORICO_SIMULADO**; cliente y política: todos; período visible: enero de 2024-diciembre de 2026, con datos generados solo hasta el 13 de octubre. Se verificaron 42.900 carritos, 14.245 con abandono y 2.540 recuperados. Los totales y las etapas coinciden con la comprobación SQL local.
 
-## Alcance de la revisión web
+La distribución por tarifas de envío conserva la importación anterior y presenta pequeñas diferencias frente a la población local actual. Por ejemplo, la imagen muestra 72,2 % de conversión para envío de $3 y el recálculo local da 72,02 %. Las tablas del [análisis vigente](HALLAZGOS_Y_RECOMENDACIONES.md) y sus CSV usan el recálculo local; no mezclo ambas versiones para formular conclusiones.
 
-| Comprobación | Observación |
-|---|---|
-| Inicio y catálogo | Carga visible correcta; 119 productos |
-| Filtro Manga | 13 productos |
-| Sesión | Se exige autenticación antes de agregar al carrito |
-| Carrito y checkout | Producto y subtotal visibles; teléfono obligatorio validado |
-| Administración | Acceso con cuenta de laboratorio y consulta del histórico |
-| Power BI incrustado | Mensaje «Informe en preparación»; Microsoft sin configurar |
+## E-commerce
 
-Se dejó un carrito adicional de prueba con un producto y no se completó un nuevo pedido ni un pago. El conteo posterior fue de 42.901 carritos totales y 29.898 pedidos históricos. El carrito adicional no forma parte de los 42.900 del histórico de la captura.
+### Inicio
 
-La revisión corresponde a navegador de escritorio. No constituye una auditoría exhaustiva, una validación móvil ni una certificación de accesibilidad o seguridad.
+![Inicio de la tienda académica](capturas/inicio-ecommerce.jpg)
 
-## Automatización de la implementación privada
+Captura de la demo local el 21/11/2026. Presenta el punto de entrada al recorrido de catálogo y compra. El prototipo conserva referencias comerciales y recursos de terceros, sin afiliación ni atribución de esos recursos como creación propia.
 
-La versión preparada superó comprobación de tipos, compilación y 95 pruebas. También se comprobó en CI la construcción de contenedores, la población de datos, la salud HTTP y la persistencia después de detener y volver a iniciar los servicios.
+### Pago simulado
 
-Estos resultados corresponden a la implementación privada revisada; este repositorio documental no ejecuta dichas pruebas ni publica sus logs internos. No se confunde persistencia con una restauración probada desde un respaldo.
+![Formulario de pago y tarjeta de ejemplo](capturas/pago-tarjeta-simulada.jpg)
 
-## Evidencias pendientes
+Captura local el 21/11/2026, con la tarjeta de ejemplo incluida en la aplicación y la cuenta de laboratorio. No se usaron datos financieros reales ni se pulsó Confirmar pago. Se regresó al checkout sin pagar. La imagen es estática; la interfaz original incluye la tarjeta animada.
 
-- Actualización y revisión de Resumen y Carritos en Power BI Desktop contra la base local preparada.
-- Capturas actuales de los informes con fecha, filtros, indicadores y fuente explicados.
-- Validación de la integración Microsoft, si se habilita.
-- Restauración y despliegue público verificados antes de añadir un enlace de demostración.
+## Administración
 
-No se usan capturas de la antigua VPS para representar un servicio actualmente disponible ni se fabrican pantallas de informes.
+### Seguimiento de carritos
+
+![Panel operativo de carritos](capturas/carritos-historico-simulado.jpg)
+
+Captura local del 20/11/2026, con histórico simulado activo. El panel distingue 10.868 carritos abandonados actualmente, 15.003 episodios históricos y 14.245 carritos distintos con historial. Los nombres visibles son de laboratorio. Es un panel web, no un informe Power BI.
+
+### Sección Power BI
+
+![Ubicación de la integración Power BI en el panel](capturas/powerbi-integracion-local.jpg)
+
+Captura local del 21/11/2026. Documenta la sección de informes del panel y el mensaje «Informe en preparación». La configuración local tiene deshabilitada la integración Microsoft; esta imagen no demuestra un informe incrustado disponible. El encabezado lateral «Informes y configuración» identifica la navegación, no una pantalla de credenciales.
+
+### Aviso académico
+
+![Aviso educativo del prototipo](capturas/aviso-academico.jpg)
+
+Identifica las operaciones como simuladas y declara ausencia de afiliación con la tienda real.
+
+## Fuentes para los hallazgos
+
+La comprobación del 21/11/2026 utilizó las vistas de la base local y consultas agregadas de solo lectura. Se excluyeron las pruebas del prototipo. Los [CSV públicos](../datos/) contienen únicamente agregados: totales, etapas, períodos, segmentos, umbral y envío. Un campo vacío de envío en el CSV significa valor desconocido, no costo cero.
+
+El material académico previo sirvió para reconstruir la evolución del proyecto y la forma de presentar resultados. Las preguntas vigentes y sus conclusiones corresponden al enfoque delimitado aquí. No se reutilizan hallazgos anteriores de dispositivos, marketing o errores de pago como si fueran resultados del modelo actual.
+
+## Comprobaciones técnicas de apoyo
+
+La implementación privada superó comprobación de tipos, compilación y 95 pruebas, además de construcción de contenedores, salud HTTP y persistencia tras detener y reiniciar servicios. La web se revisó en escritorio. Estas comprobaciones apoyan la ejecución del caso, pero no sustituyen el análisis de negocio ni una auditoría exhaustiva.
+
+Quedan por validar la actualización de los informes contra la base local actual, la integración Microsoft y una eventual demo pública. La persistencia comprobada no equivale a una restauración probada desde respaldo.
