@@ -34,7 +34,7 @@ Organicé los datos operativos en PostgreSQL y utilicé cinco vistas analíticas
 
 Para comparar el envío, conservo lo que se mostró al abandonar y separo entrega a domicilio, retiro y cotizaciones desconocidas. También distingo el estado actual de un carrito de haber abandonado alguna vez: un carrito puede abandonar y después comprar.
 
-Los hallazgos siguientes se recalcularon el **21 de noviembre de 2026** sobre los **42.900 carritos del histórico simulado**, mediante consultas de solo lectura con las reglas del modelo. Las imágenes Power BI son exportaciones reales de los informes conservados; no acreditan una actualización de su conexión contra la instalación local actual.
+Los hallazgos siguientes se recalcularon el **21 de noviembre de 2026** sobre los **42.900 carritos del histórico simulado**, mediante consultas de solo lectura con las reglas del modelo. Las imágenes Power BI muestran los informes publicados dentro del panel local, con su menú administrativo. La integración de visualización y consulta de estado está restaurada; esto no acredita sincronización de los modelos con la base local actual.
 
 ## Hallazgos principales
 
@@ -61,39 +61,51 @@ Son propuestas para evaluar, no acciones con impacto comercial ya demostrado.
 
 ## Recorrido visual
 
-### Análisis con Power BI
+### E-commerce
 
-**Resumen de ventas.** Permite explorar ventas netas de productos, unidades, pedidos, categorías y períodos. Complementa el análisis de abandono; ventas netas no equivale a utilidad.
+**Inicio y categorías.** La cabecera, la presentación y las categorías muestran cómo empieza el recorrido de compra.
 
-![Informe Resumen exportado desde Power BI Desktop](docs/capturas/powerbi-resumen.jpg)
+![Inicio del e-commerce con las categorías visibles](docs/capturas/inicio-categorias.jpg)
 
-*Exportación del informe conservado, realizada el 21/11/2026. Esta vista incluye el origen «Todas» y muestra 29.902 pedidos de esa importación anterior; no debe confundirse con los 29.898 pedidos del histórico local utilizado para los hallazgos.*
+**Catálogo.** Búsqueda, filtros por categoría y precio, disponibilidad y acceso al carrito.
 
-**Carritos y abandono.** Reúne las métricas de abandono, avance, conversión y recuperación con filtros de período, origen, cliente y política de envío.
+![Catálogo con filtros y productos de demostración](docs/capturas/catalogo-ecommerce.jpg)
 
-![Informe Carritos exportado desde Power BI Desktop](docs/capturas/powerbi-carritos.jpg)
+**Pago simulado.** La tarjeta visual responde a los campos del formulario. La captura utiliza la tarjeta de ejemplo de la aplicación; no se confirmó ningún pago.
 
-*Informe conservado, exportado el 21/11/2026. El filtro y las cifras visibles se documentan en [Evidencias](docs/EVIDENCIAS.md).*
+![Pasarela académica con tarjeta de ejemplo](docs/capturas/pago-tarjeta-simulada.jpg)
 
-### E-commerce y proceso de compra
+### Administración y análisis con Power BI
 
-La tienda simulada da contexto al análisis: catálogo, carrito, entrega y pago son las etapas que alimentan el modelo.
+**Productos.** Vista de gestión del catálogo con categorías, variantes, precios y existencias.
 
-![Pantalla de inicio del e-commerce académico](docs/capturas/inicio-ecommerce.jpg)
+![Productos dentro del panel administrativo](docs/capturas/admin-productos.jpg)
 
-En la pasarela de prueba, la tarjeta visual responde a los datos del formulario. La imagen usa exclusivamente la tarjeta de ejemplo incluida en la aplicación; no se confirmó ningún pago.
+**Pedidos.** Consulta de pedidos, estados de entrega y cobro del histórico simulado.
 
-![Pago simulado con tarjeta visual de ejemplo](docs/capturas/pago-tarjeta-simulada.jpg)
+![Pedidos con histórico simulado activado](docs/capturas/admin-pedidos.jpg)
 
-### Panel de administración e integración
+**Carritos.** Seguimiento de las etapas y consulta del historial de abandono. El panel distingue episodios de abandono, carritos distintos con historial y estado actual.
 
-**Seguimiento de carritos.** Permite consultar estados y separar el histórico simulado de las pruebas del prototipo. El panel operativo cuenta episodios de abandono y carritos distintos; esos conceptos no son intercambiables.
+![Carritos del histórico simulado dentro del panel](docs/capturas/admin-carritos.jpg)
 
-![Panel administrativo de carritos con histórico simulado](docs/capturas/carritos-historico-simulado.jpg)
+**Resumen de ventas integrado.** El dashboard de Power BI se consulta directamente en Resumen de la tienda, conservando la navegación del administrador.
 
-**Sección Power BI del panel.** Muestra dónde se integra el informe. En el entorno local la conexión Microsoft está deshabilitada y aparece «Informe en preparación»; esta captura documenta ese estado, no un informe incrustado funcionando.
+![Dashboard Resumen de Power BI integrado al panel](docs/capturas/powerbi-resumen-integrado.jpg)
 
-![Sección de informes Power BI en el panel local](docs/capturas/powerbi-integracion-local.jpg)
+**Carritos y abandono integrado.** El segundo dashboard se consulta desde la sección Power BI. En esta captura seleccioné el origen HISTORICO_SIMULADO y ajusté el informe completo dentro de su marco.
+
+![Dashboard Carritos de Power BI integrado al panel](docs/capturas/powerbi-carritos-integrado.jpg)
+
+Las capturas se tomaron el 21/11/2026. Los informes muestran la importación publicada en Microsoft, cuya última actualización completada consultada es del 19/10/2026 UTC. La visualización interactiva y la consulta de fecha/cupo están restauradas; cargar datos nuevos requiere restablecer un origen accesible para Power BI. No se solicitó una actualización de datos para estas capturas.
+
+Resumen conserva el origen «Todas» y muestra 29.902 pedidos de la importación anterior. Carritos está filtrado al histórico y muestra 42.900 carritos, 14.245 con abandono y 2.540 recuperados. Las tablas de hallazgos usan la comprobación SQL local; las diferencias de detalle se explican en [Evidencias](docs/EVIDENCIAS.md).
+
+### Aviso académico
+
+![Aviso de proyecto educativo sin operaciones comerciales reales ni afiliación](docs/capturas/aviso-academico.jpg)
+
+Las marcas y referencias visuales pertenecen al antecedente académico. Los nombres, pedidos y operaciones visibles son datos de laboratorio, sin actividad comercial real.
 
 ## Tecnologías y arquitectura
 
@@ -129,6 +141,6 @@ Lo que más me interesa de este caso es relacionar una pregunta de negocio con d
 - [Capturas, fuentes y validaciones](docs/EVIDENCIAS.md)
 - [Arquitectura y operación](docs/ARQUITECTURA_Y_OPERACION.md)
 
-Este repositorio contiene la presentación del caso y tablas agregadas de la simulación. La implementación completa permanece privada. La aplicación funciona en local; la nueva demo pública y la reconexión de los informes requieren validación adicional.
+Este repositorio contiene la presentación del caso y tablas agregadas de la simulación. La implementación completa permanece privada. La aplicación funciona en local con ambos informes publicados integrados y consulta de su estado. La nueva demo pública y la actualización de los modelos desde un origen restaurado requieren validación adicional.
 
 Las marcas y recursos de terceros visibles en las capturas no se atribuyen como creación propia ni reciben una licencia abierta mediante este repositorio.

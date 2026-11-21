@@ -1,65 +1,79 @@
 # Galería y fuentes del caso
 
-## Análisis con Power BI
-
-Abrí los informes originales en Power BI Desktop y exporté sus páginas el 21/11/2026. Las imágenes muestran el diseño y los datos importados que conservaban los archivos; no se actualizaron sus conexiones ni se guardaron cambios sobre los originales.
-
-### Resumen de ventas
-
-![Informe Resumen](capturas/powerbi-resumen.jpg)
-
-Origen seleccionado: **Todas**. La importación conservada muestra $873.917,78 en ventas netas de productos, 41.016 unidades y 29.902 pedidos. Es una fotografía anterior con datos de prototipo además del histórico; no representa ventas reales ni el total del histórico local usado para las conclusiones. El selector de fecha llega a diciembre, pero eso no significa que existan datos hasta diciembre: el histórico de generación termina el 13 de octubre.
-
-### Carritos y abandono de compra
-
-![Informe Carritos filtrado al histórico simulado](capturas/powerbi-carritos.jpg)
-
-Origen seleccionado: **HISTORICO_SIMULADO**; cliente y política: todos; período visible: enero de 2024-diciembre de 2026, con datos generados solo hasta el 13 de octubre. Se verificaron 42.900 carritos, 14.245 con abandono y 2.540 recuperados. Los totales y las etapas coinciden con la comprobación SQL local.
-
-La distribución por tarifas de envío conserva la importación anterior y presenta pequeñas diferencias frente a la población local actual. Por ejemplo, la imagen muestra 72,2 % de conversión para envío de $3 y el recálculo local da 72,02 %. Las tablas del [análisis vigente](HALLAZGOS_Y_RECOMENDACIONES.md) y sus CSV usan el recálculo local; no mezclo ambas versiones para formular conclusiones.
-
 ## E-commerce
 
-### Inicio
+### Inicio y categorías
 
-![Inicio de la tienda académica](capturas/inicio-ecommerce.jpg)
+![Cabecera, inicio y categorías](capturas/inicio-categorias.jpg)
 
-Captura de la demo local el 21/11/2026. Presenta el punto de entrada al recorrido de catálogo y compra. El prototipo conserva referencias comerciales y recursos de terceros, sin afiliación ni atribución de esos recursos como creación propia.
+Captura local del 21/11/2026. Incluye la cabecera, la presentación y las cinco categorías. El prototipo conserva referencias y recursos de terceros, sin afiliación con una tienda real ni atribución de esos recursos como creación propia.
+
+### Catálogo
+
+![Catálogo con búsqueda, filtros y productos](capturas/catalogo-ecommerce.jpg)
+
+Catálogo de 119 productos de demostración, con búsqueda, filtros, precios, disponibilidad y acciones del carrito. Captura local del 21/11/2026.
 
 ### Pago simulado
 
-![Formulario de pago y tarjeta de ejemplo](capturas/pago-tarjeta-simulada.jpg)
+![Formulario de pago con tarjeta visual de ejemplo](capturas/pago-tarjeta-simulada.jpg)
 
-Captura local el 21/11/2026, con la tarjeta de ejemplo incluida en la aplicación y la cuenta de laboratorio. No se usaron datos financieros reales ni se pulsó Confirmar pago. Se regresó al checkout sin pagar. La imagen es estática; la interfaz original incluye la tarjeta animada.
+Se usó la tarjeta de ejemplo de la aplicación y la cuenta de laboratorio. No se utilizaron datos financieros reales ni se pulsó Confirmar pago. Se regresó al checkout sin pagar. La imagen es estática; la interfaz original incluye una tarjeta animada.
 
-## Administración
+## Administración y análisis con Power BI
 
-### Seguimiento de carritos
+### Productos
 
-![Panel operativo de carritos](capturas/carritos-historico-simulado.jpg)
+![Administración de productos](capturas/admin-productos.jpg)
 
-Captura local del 20/11/2026, con histórico simulado activo. El panel distingue 10.868 carritos abandonados actualmente, 15.003 episodios históricos y 14.245 carritos distintos con historial. Los nombres visibles son de laboratorio. Es un panel web, no un informe Power BI.
+Vista real del catálogo administrativo: producto, categoría, franquicia, precio y existencias. No se alteraron productos para realizar la captura.
 
-### Sección Power BI
+### Pedidos
 
-![Ubicación de la integración Power BI en el panel](capturas/powerbi-integracion-local.jpg)
+![Pedidos del histórico simulado](capturas/admin-pedidos.jpg)
 
-Captura local del 21/11/2026. Documenta la sección de informes del panel y el mensaje «Informe en preparación». La configuración local tiene deshabilitada la integración Microsoft; esta imagen no demuestra un informe incrustado disponible. El encabezado lateral «Informes y configuración» identifica la navegación, no una pantalla de credenciales.
+Histórico simulado activado: 29.898 pedidos. La vista muestra estados de cobro y entrega; los nombres y operaciones visibles pertenecen al laboratorio.
 
-### Aviso académico
+### Carritos
 
-![Aviso educativo del prototipo](capturas/aviso-academico.jpg)
+![Seguimiento operativo de carritos](capturas/admin-carritos.jpg)
 
-Identifica las operaciones como simuladas y declara ausencia de afiliación con la tienda real.
+Histórico simulado activo: 42.900 carritos, 10.868 abandonados actualmente, 15.003 episodios históricos y 14.245 carritos distintos con historial. Es un panel operativo web, separado del informe analítico Power BI que aparece abajo.
 
-## Fuentes para los hallazgos
+### Resumen de ventas integrado
 
-La comprobación del 21/11/2026 utilizó las vistas de la base local y consultas agregadas de solo lectura. Se excluyeron las pruebas del prototipo. Los [CSV públicos](../datos/) contienen únicamente agregados: totales, etapas, períodos, segmentos, umbral y envío. Un campo vacío de envío en el CSV significa valor desconocido, no costo cero.
+![Resumen de Power BI dentro de Resumen de la tienda](capturas/powerbi-resumen-integrado.jpg)
 
-El material académico previo sirvió para reconstruir la evolución del proyecto y la forma de presentar resultados. Las preguntas vigentes y sus conclusiones corresponden al enfoque delimitado aquí. No se reutilizan hallazgos anteriores de dispositivos, marketing o errores de pago como si fueran resultados del modelo actual.
+Informe publicado en Microsoft y cargado dentro del panel local, con la navegación administrativa visible. Origen seleccionado: Todas. Conserva $873.917,78 en ventas netas de productos, 41.016 unidades y 29.902 pedidos de una importación anterior con histórico y pruebas del prototipo. No representa ventas reales ni el total del histórico local usado para las conclusiones.
 
-## Comprobaciones técnicas de apoyo
+### Carritos y abandono integrado
 
-La implementación privada superó comprobación de tipos, compilación y 95 pruebas, además de construcción de contenedores, salud HTTP y persistencia tras detener y reiniciar servicios. La web se revisó en escritorio. Estas comprobaciones apoyan la ejecución del caso, pero no sustituyen el análisis de negocio ni una auditoría exhaustiva.
+![Carritos de Power BI dentro de la sección administrativa](capturas/powerbi-carritos-integrado.jpg)
 
-Quedan por validar la actualización de los informes contra la base local actual, la integración Microsoft y una eventual demo pública. La persistencia comprobada no equivale a una restauración probada desde respaldo.
+Informe publicado cargado dentro del panel local, con origen HISTORICO_SIMULADO, todos los segmentos y políticas. Se seleccionó Ajustar a la página para mostrar el dashboard completo sin retirar el menú administrativo. Se verificaron 42.900 carritos, 14.245 con abandono y 2.540 recuperados.
+
+Los totales y las etapas coinciden con la comprobación SQL local. La distribución por tarifas conserva la importación anterior y presenta pequeñas diferencias: por ejemplo, para envío de $3 el informe muestra aproximadamente 72,2 % de conversión y el recálculo local da 72,02 %. Las tablas del [análisis vigente](HALLAZGOS_Y_RECOMENDACIONES.md) y los CSV usan el recálculo local, sin mezclar versiones.
+
+### Estado comprobado de la integración
+
+El 21/11/2026 se restauraron los enlaces existentes de ambos informes y el servicio interno autorizado. Microsoft devolvió las últimas actualizaciones completadas del 19/10/2026 UTC; el panel las muestra en hora de El Salvador como 18/10/2026 por la noche. El cupo consultado fue 8/8 para cada modelo. El aviso de configuración desapareció al restablecer el servicio, no mediante edición de imágenes ni ocultación de mensajes.
+
+Se comprobó la visualización interactiva, los filtros y la consulta de fecha/cupo. No se solicitaron nuevas actualizaciones de datos ni se afirma sincronización con PostgreSQL local. La antigua VPS ya no está disponible: cargar datos nuevos requiere restablecer y validar un origen accesible para Microsoft. Abrir un informe publicado no realiza esa restauración.
+
+El selector de fechas llega a diciembre de 2026, pero el histórico generado termina el 13 de octubre. La amplitud del calendario no prueba que existan operaciones hasta diciembre.
+
+## Aviso académico
+
+![Aviso educativo sin cobros reales ni afiliación comercial](capturas/aviso-academico.jpg)
+
+Identifica las compras, pagos y envíos como simulaciones y declara ausencia de afiliación con la tienda real. Se conserva esta captura anterior del 20/11/2026.
+
+## Fuentes y alcance
+
+Las capturas nuevas son del entorno local del 21/11/2026; la pantalla de pago y el aviso se conservaron de las evidencias ya revisadas. No se publican sesiones, contraseñas, autorización Microsoft ni archivos operativos privados.
+
+Los [CSV públicos](../datos/) contienen únicamente agregados del histórico local: totales, etapas, períodos, segmentos, umbral y envío. Las consultas fueron de solo lectura y excluyeron pruebas del prototipo. Un campo vacío de envío significa valor desconocido, no costo cero.
+
+El material académico anterior sirve como antecedente de la evolución del proyecto. Las conclusiones actuales responden al enfoque delimitado de etapas, subtotal, envío, umbral y recuperación; no reutilizan conclusiones anteriores sobre dispositivos o fallos de pago.
+
+La implementación privada conserva la validación previa de tipos, compilación, 95 pruebas, construcción de contenedores y persistencia. La integración de este corte se verificó con configuración Compose, salud de los servicios, API oficial de estado y navegador real. No equivale a una auditoría exhaustiva ni a una restauración de base probada.
