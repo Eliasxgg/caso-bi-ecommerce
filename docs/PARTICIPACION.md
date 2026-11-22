@@ -2,6 +2,10 @@
 
 ## Diseño y trabajo en grupo
 
+La actividad de la materia Inteligencia de Negocios requería usar una empresa real como referencia y plantearle un problema ficticio de BI. Elegimos NizeStore para construir ese escenario educativo. El abandono, los clientes, las ventas y las operaciones simuladas no son información de la tienda real ni un diagnóstico de su negocio.
+
+Las referencias a su identidad visual y catálogo se utilizaron para representar el ejercicio, sin intención de suplantación, venta en nombre de la empresa, apropiación de sus recursos o comercialización. No existe afiliación con NizeStore; la marca y los recursos de terceros no se atribuyen como creación del equipo y conservan sus respectivos titulares.
+
 El proyecto fue universitario y grupal. Como equipo definimos el problema, las preguntas de negocio y el diseño de la base de datos: tablas necesarias, relaciones y datos que debían conservarse para analizar el proceso de compra.
 
 Participé principalmente en orientar la construcción y el diseño de la demo, revisar su funcionamiento y relacionar el flujo de compra con la información que necesitábamos analizar. El diseño de la base se trabajó en grupo; utilizamos apoyo de IA para convertir ese diseño en scripts SQL, generar datos sintéticos y construir con rapidez la aplicación web de demostración.

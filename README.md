@@ -10,6 +10,8 @@ Analicé el recorrido de compra de un e-commerce simulado para identificar dónd
 
 > Proyecto universitario grupal, con asistencia de IA en implementación, datos sintéticos y documentación. Las operaciones son simuladas, sin cobros ni entregas reales ni afiliación con la tienda comercial cuyas referencias aparecen en el prototipo. La [participación individual y los aprendizajes](docs/PARTICIPACION.md) se distinguen del trabajo del equipo y del código asistido.
 
+> **Aclaración sobre NizeStore y la actividad académica:** la actividad de la materia **Inteligencia de Negocios** requería tomar una empresa real como referencia y plantear un problema ficticio de BI para analizarlo y proponer soluciones. Elegimos NizeStore para ese ejercicio. El problema de abandono, los clientes, las operaciones y las cifras del caso son simulados: **no describen la situación real de NizeStore**. El prototipo reproduce referencias de su identidad visual y catálogo únicamente para representar ese escenario educativo. No pretende suplantar a la tienda, vender en su nombre, apropiarse de su marca o recursos, ni comercializarlos. Este proyecto no está afiliado a NizeStore ni presenta esos recursos como creación propia; sus derechos corresponden a sus respectivos titulares.
+
 ## El caso en cifras
 
 Corte de los agregados locales: **21/11/2026**, origen **HISTORICO_SIMULADO**. Operaciones generadas entre enero de 2024 y el 13/10/2026; no son datos comerciales reales.
