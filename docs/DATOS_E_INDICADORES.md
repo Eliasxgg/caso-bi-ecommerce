@@ -72,7 +72,7 @@ Las barras por etapa son horizontales simples y las de clientes comparan series 
 
 ## Preparación e interpretación
 
-Power Query prepara texto, importes, fechas y snapshots de análisis. DAX calcula las medidas y relaciones con los calendarios. Las comparaciones por período utilizan la fecha de creación del carrito; otra cohorte requeriría indicarlo expresamente.
+Power Query prepara texto, importes, fechas y snapshots de análisis. El modelo define las relaciones con los calendarios y DAX calcula las medidas. Las comparaciones por período utilizan la fecha de creación del carrito; otra cohorte requeriría indicarlo expresamente.
 
 Abandono y conversión se solapan, por lo que sus tasas no se suman como partes de un total. Confirmar un pedido simulado no equivale a un cobro real. Las ventas netas de productos excluyen envío y no representan utilidad: faltan costos históricos y gastos para calcularla.
 
@@ -83,3 +83,36 @@ Los [hallazgos vigentes](HALLAZGOS_Y_RECOMENDACIONES.md) se recalcularon sobre e
 En los documentos uso coma para miles y punto para decimales: 42,900 carritos, 70.95 % y $34.99. En los CSV los conteos se guardan sin separadores de miles y los decimales usan punto, para permitir una importación consistente.
 
 Los porcentajes citados como visibles mantienen el redondeo del dashboard. Los cálculos derivados y los conteos contrastados en SQL se identifican en [Hallazgos y recomendaciones](HALLAZGOS_Y_RECOMENDACIONES.md). No se combinan conteos de una versión con porcentajes de otra para reconstruir cantidades.
+
+## Relaciones y ejemplos DAX del modelo
+
+```mermaid
+flowchart LR
+    FC["Calendario carritos"] -->|1 a muchos| C["bi_carritos"]
+    E["bi_condiciones_envio"] -->|1 a muchos| C
+    FV["Calendario ventas"] -->|1 a muchos| P["bi_resumen_pedidos"]
+    P -->|1 a muchos| D["bi_resumen_detalle_ventas"]
+    V["bi_resumen_productos"] -->|1 a muchos| D
+```
+
+Las relaciones filtran en una dirección. La fecha de análisis del abandono es la **creación del carrito**, no el día en que se detectó la inactividad. El calendario de ventas usa fecha de compra. No se añade otra relación directa de fecha al detalle que duplique el recorrido del filtro.
+
+Ejemplos de medidas utilizadas, con una fila por carrito:
+
+```dax
+Total carritos = COUNTROWS(bi_carritos) + 0
+Carritos con abandono = COUNT(bi_carritos[fecha_abandono]) + 0
+Pedidos confirmados = COUNT(bi_carritos[id_pedido]) + 0
+Porcentaje con abandono = DIVIDE([Carritos con abandono], [Total carritos])
+Porcentaje de conversion = DIVIDE([Pedidos confirmados], [Total carritos])
+```
+
+La recuperación añade abandono no vacío y `fecha_compra >= fecha_abandono`. Los porcentajes se evalúan en el contexto de filtros, no contra un total global fijo.
+
+En Resumen, cuando el filtro llega desde producto, los pedidos se cuentan distintos desde las líneas. Las ventas netas por línea distribuyen proporcionalmente el descuento de cabecera mediante `RELATED`/`DIVIDE`; así no se repite el descuento completo por cada artículo. No se activa filtro bidireccional para ocultar un problema de granularidad.
+
+## Fuente de cifras y comprobación reproducible
+
+Los CSV de `datos/` son agregados del corte local del 21/11/2026. `totales.csv` es la referencia de la cohorte: los demás archivos son desgloses que deben reconciliar con ella, o subconjuntos explícitos de domicilio con cotización conocida. `umbral.csv` no incluye una fila exactamente en el umbral porque no hay casos; la tabla del análisis lo señala como ausencia de observaciones.
+
+El validador `node scripts/validar-caso.mjs` comprueba sumas, denominadores, límites de conteos, correspondencia entre subconjuntos y enlaces locales del repositorio. No vuelve a consultar PostgreSQL ni demuestra la conectividad actual con Microsoft. Las cifras de los modelos publicados se identifican aparte en Evidencias; no se sustituyen sus capturas por resultados locales.

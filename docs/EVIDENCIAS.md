@@ -1,5 +1,7 @@
 # Galería y fuentes del caso
 
+**Estado al 22/11/2026:** demo local; la antigua instancia Oracle fue eliminada. Las imágenes conservan sus fechas y resultados originales. Revisar una captura no equivale a repetir el flujo completo ni a validar una actualización de datos en Microsoft.
+
 ## E-commerce
 
 ### Inicio y categorías
@@ -58,7 +60,7 @@ Los totales y las etapas coinciden con la comprobación SQL local. La distribuci
 
 El 21/11/2026 se comprobaron ambos informes dentro del panel y la consulta de su estado mediante el servicio interno autorizado. Microsoft devolvió las últimas actualizaciones completadas del 19/10/2026 UTC; el panel las muestra en hora de El Salvador como 18/10/2026 por la noche. El cupo consultado fue 8/8 para cada modelo.
 
-Se comprobó la visualización interactiva, los filtros y la consulta de fecha/cupo. Las capturas muestran los datos del modelo publicado en Microsoft. La conexión de Power BI se configura según el origen utilizado: PostgreSQL en la VPS o PostgreSQL local. Los [detalles de conexión y actualización](ARQUITECTURA_Y_OPERACION.md) explican esa diferencia.
+Se comprobó la visualización interactiva, los filtros y la consulta de fecha/cupo. Las capturas muestran los datos del modelo publicado en Microsoft. **No se validó una nueva actualización desde PostgreSQL local.** La antigua VPS ya no puede actuar como origen y el servicio de control no sustituye un gateway. Los [detalles de conexión y actualización](ARQUITECTURA_Y_OPERACION.md) explican el recorrido pendiente.
 
 El selector de fechas llega a diciembre de 2026, pero el histórico generado termina el 13 de octubre. La amplitud del calendario no prueba que existan operaciones hasta diciembre.
 
@@ -76,7 +78,7 @@ Los [CSV públicos](../datos/) contienen únicamente agregados del histórico lo
 
 El material académico anterior sirve como antecedente de la evolución del proyecto. Las conclusiones actuales responden al enfoque delimitado de etapas, subtotal, envío, umbral y recuperación; no reutilizan conclusiones anteriores sobre dispositivos o fallos de pago.
 
-La implementación privada conserva la validación previa de tipos, compilación, 95 pruebas, construcción de contenedores y persistencia. La integración de este corte se verificó con configuración Compose, salud de los servicios, API oficial de estado y navegador real.
+La implementación privada documenta la validación previa de tipos, compilación, 95 pruebas, construcción de contenedores y persistencia; no se presentan como pruebas ejecutadas de nuevo en esta revisión documental. La integración del 21/11 se verificó con configuración Compose, salud de los servicios, API oficial de estado y navegador real. El 22/11 se revisaron las nueve imágenes y se conciliaron los siete CSV publicados mediante el [validador reproducible](../scripts/validar-caso.mjs).
 
 ## Cómo contrastar los hallazgos con las imágenes
 
